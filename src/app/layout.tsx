@@ -100,9 +100,9 @@ export const metadata: Metadata = {
     url: "https://www.xyronixlabs.com",
     siteName: "Xyronix Labs Pvt. Ltd.",
     title:
-      "Xyrinix Labs Private Limited Catalogue.",
+      "Xyrinix Labs Pvt. Ltd.",
     description:
-      "Catalogue for Software Development Division at Xyrinix Labs Private Limited.",
+      "Catalogue for Software Development Division at Xyrinix Labs Pvt. Ltd.",
     images: [
       {
         url: "https://www.xyronixlabs.com/logo.png",
@@ -116,9 +116,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Xyrinix Labs Private Limited Catalogue.",
+      "Xyrinix Labs Pvt. Ltd.",
     description:
-      "Catalogue for Software Development Division at Xyrinix Labs Private Limited.",
+      "Catalogue for Software Development Division at Xyrinix Labs Pvt. Ltd.",
     images: ["https://www.xyronixlabs.com/logo.png"],
     creator: "@XyronixLabs",
   },
