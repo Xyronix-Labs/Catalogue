@@ -100,15 +100,15 @@ export const metadata: Metadata = {
     url: "https://www.xyronixlabs.com",
     siteName: "Xyronix Labs Pvt. Ltd.",
     title:
-      "XyroMail – AI Native Email Infrastructure for Enterprise",
+      "Xyrinix Labs Private Limited Catalogue.",
     description:
-      "XyroMail – AI Native Email Infrastructure for Enterprise, Reinventing Corporate Communications from scratch with AI at it's core.",
+      "Catalogue for Software Development Division at Xyrinix Labs Private Limited.",
     images: [
       {
         url: "https://www.xyronixlabs.com/logo.png",
         width: 1200,
         height: 630,
-        alt: "XyroMail – AI Native Email Infrastructure for Enterprise, Reinventing Corporate Communications from scratch with AI at it's core.",
+        alt: "Xyrinix Labs Private Limited Catalogue.",
       },
     ],
   },
@@ -116,9 +116,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "XyroMail – AI Native Email Infrastructure for Enterprise",
+      "Xyrinix Labs Private Limited Catalogue.",
     description:
-      "XyroMail – AI Native Email Infrastructure for Enterprise, Reinventing Corporate Communications from scratch with AI at it's core.",
+      "Catalogue for Software Development Division at Xyrinix Labs Private Limited.",
     images: ["https://www.xyronixlabs.com/logo.png"],
     creator: "@XyronixLabs",
   },
