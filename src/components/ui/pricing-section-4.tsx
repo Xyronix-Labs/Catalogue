@@ -4,143 +4,356 @@ import { Sparkles as SparklesComp } from "@/components/ui/sparkles";
 import { TimelineContent } from "@/components/ui/timeline-animation";
 import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
 import { cn } from "@/lib/utils";
-import NumberFlow from "@number-flow/react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { useRef, useState } from "react";
 
-const plans = [
-  {
-    name: "Starter",
-    description:
-      "Great for small businesses and startups looking to get started with AI",
-    price: 12,
-    yearlyPrice: 99,
-    buttonText: "Get started",
-    buttonVariant: "outline" as const,
-    includes: [
-      "Free includes:",
-      "Unlimited Cards",
-      "Custom background & stickers",
-      "2-factor authentication",
-      "Free includes:",
-      "Unlimited Cards",
-      "Custom background & stickers",
-      "2-factor authentication",
-    ],
-  },
-  {
-    name: "Business",
-    description:
-      "Best value for growing businesses that need more advanced features",
-    price: 48,
-    yearlyPrice: 399,
-    buttonText: "Get started",
-    buttonVariant: "default" as const,
-    popular: true,
-    includes: [
-      "Everything in Starter, plus:",
-      "Advanced checklists",
-      "Custom fields",
-      "Serverless functions",
-      "Everything in Starter, plus:",
-      "Advanced checklists",
-      "Custom fields",
-      "Serverless functions",
-    ],
-  },
-  {
-    name: "Enterprise",
-    description:
-      "Advanced plan with enhanced security and unlimited access for large teams",
-    price: 96,
-    yearlyPrice: 899,
-    buttonText: "Get started",
-    buttonVariant: "outline" as const,
-    includes: [
-      "Everything in Business, plus:",
-      "Multi-board management",
-      "Multi-board guest",
-      "Attachment permissions",
-      "Everything in Business, plus:",
-      "Multi-board management",
-      "Multi-board guest",
-      "Attachment permissions",
-    ],
-  },
-];
+// ─── Data ────────────────────────────────────────────────────────────────────
 
-const PricingSwitch = ({ onSwitch }: { onSwitch: (value: string) => void }) => {
-  const [selected, setSelected] = useState("0");
-
-  const handleSwitch = (value: string) => {
-    setSelected(value);
-    onSwitch(value);
-  };
-
-  return (
-    <div className="flex justify-center">
-      <div className="relative z-10 mx-auto flex w-fit rounded-full bg-neutral-900 border border-gray-700 p-1">
-        <button
-          onClick={() => handleSwitch("0")}
-          className={cn(
-            "relative z-10 w-fit h-10 rounded-full sm:px-6 px-3 sm:py-2 py-1 font-medium transition-colors",
-            selected === "0" ? "text-white" : "text-gray-200",
-          )}
-        >
-          {selected === "0" && (
-            <motion.span
-              layoutId={"switch"}
-              className="absolute top-0 left-0 h-10 w-full rounded-full border-4 shadow-sm shadow-blue-600 border-blue-600 bg-gradient-to-t from-blue-500 to-blue-600"
-              transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            />
-          )}
-          <span className="relative">Monthly</span>
-        </button>
-
-        <button
-          onClick={() => handleSwitch("1")}
-          className={cn(
-            "relative z-10 w-fit h-10 flex-shrink-0 rounded-full sm:px-6 px-3 sm:py-2 py-1 font-medium transition-colors",
-            selected === "1" ? "text-white" : "text-gray-200",
-          )}
-        >
-          {selected === "1" && (
-            <motion.span
-              layoutId={"switch"}
-              className="absolute top-0 left-0 h-10 w-full rounded-full border-4 shadow-sm shadow-blue-600 border-blue-600 bg-gradient-to-t from-blue-500 to-blue-600"
-              transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            />
-          )}
-          <span className="relative flex items-center gap-2">Yearly</span>
-        </button>
-      </div>
-    </div>
-  );
+type PlanCard = {
+  name: string;
+  price: string;
+  hosting: string;
+  maintenance: string;
+  popular?: boolean;
 };
 
+type RegionData = {
+  currency: string;
+  flag: string;
+  web: PlanCard[];
+  androidIos: PlanCard[];
+  hybrid: PlanCard[];
+  desktop: PlanCard[];
+};
+
+const data: Record<"india" | "nz", RegionData> = {
+  india: {
+    currency: "₹",
+    flag: "🇮🇳",
+    web: [
+      {
+        name: "Static Website",
+        price: "50,000",
+        hosting: "3,600 – 6,000",
+        maintenance: "10,000",
+      },
+      {
+        name: "Full Stack Website",
+        price: "1,50,000",
+        hosting: "6,000 – 7,200",
+        maintenance: "18,000",
+        popular: true,
+      },
+      {
+        name: "E-Commerce Website",
+        price: "3,00,000 – 6,00,000",
+        hosting: "7,200 – 9,000",
+        maintenance: "25,000",
+      },
+    ],
+    androidIos: [
+      {
+        name: "Simple",
+        price: "3,00,000 – 9,00,000",
+        hosting: "18,000",
+        maintenance: "36,000",
+      },
+      {
+        name: "Moderate",
+        price: "12,00,000 – 30,00,000",
+        hosting: "24,000",
+        maintenance: "48,000",
+        popular: true,
+      },
+      {
+        name: "Complex",
+        price: "36,00,000+",
+        hosting: "39,000+",
+        maintenance: "78,000+",
+      },
+    ],
+    hybrid: [
+      {
+        name: "Simple",
+        price: "3,60,000 – 9,60,000",
+        hosting: "18,000",
+        maintenance: "36,000",
+      },
+      {
+        name: "Moderate",
+        price: "15,00,000 – 30,00,000",
+        hosting: "24,000",
+        maintenance: "48,000",
+        popular: true,
+      },
+      {
+        name: "Complex",
+        price: "48,00,000+",
+        hosting: "39,000+",
+        maintenance: "78,000+",
+      },
+    ],
+    desktop: [
+      {
+        name: "Simple",
+        price: "4,80,000 – 10,80,000",
+        hosting: "18,000",
+        maintenance: "36,000",
+      },
+      {
+        name: "Moderate",
+        price: "16,80,000 – 33,00,000",
+        hosting: "24,000",
+        maintenance: "48,000",
+        popular: true,
+      },
+      {
+        name: "Complex",
+        price: "51,00,000+",
+        hosting: "39,000+",
+        maintenance: "78,000+",
+      },
+    ],
+  },
+  nz: {
+    currency: "NZ$",
+    flag: "🇳🇿",
+    web: [
+      {
+        name: "Static Website",
+        price: "2,500",
+        hosting: "60 – 100",
+        maintenance: "300",
+      },
+      {
+        name: "Full Stack Website",
+        price: "5000-10000",
+        hosting: "100 – 120",
+        maintenance: "300",
+        popular: true,
+      },
+      {
+        name: "E-Commerce Website",
+        price: "8,000 – 15,000",
+        hosting: "120 – 150",
+        maintenance: "500",
+      },
+    ],
+    androidIos: [
+      {
+        name: "Simple",
+        price: "5,000 – 15,000",
+        hosting: "300",
+        maintenance: "600",
+      },
+      {
+        name: "Moderate",
+        price: "20,000 – 50,000",
+        hosting: "400",
+        maintenance: "800",
+        popular: true,
+      },
+      {
+        name: "Complex",
+        price: "60,000+",
+        hosting: "650+",
+        maintenance: "1,300+",
+      },
+    ],
+    hybrid: [
+      {
+        name: "Simple",
+        price: "6,000 – 16,000",
+        hosting: "300",
+        maintenance: "600",
+      },
+      {
+        name: "Moderate",
+        price: "25,000 – 50,000",
+        hosting: "400",
+        maintenance: "800",
+        popular: true,
+      },
+      {
+        name: "Complex",
+        price: "80,000+",
+        hosting: "650+",
+        maintenance: "1,300+",
+      },
+    ],
+    desktop: [
+      {
+        name: "Simple",
+        price: "8,000 – 18,000",
+        hosting: "300",
+        maintenance: "600",
+      },
+      {
+        name: "Moderate",
+        price: "28,000 – 55,000",
+        hosting: "400",
+        maintenance: "800",
+        popular: true,
+      },
+      {
+        name: "Complex",
+        price: "85,000+",
+        hosting: "650+",
+        maintenance: "1,300+",
+      },
+    ],
+  },
+};
+
+// ─── Region Toggle ────────────────────────────────────────────────────────────
+
+const RegionSwitch = ({
+  region,
+  onSwitch,
+}: {
+  region: "india" | "nz";
+  onSwitch: (value: "india" | "nz") => void;
+}) => (
+  <div className="flex justify-center">
+    <div className="relative z-10 mx-auto flex w-fit rounded-full bg-neutral-900 border border-gray-700 p-1">
+      {(["india", "nz"] as const).map((r) => (
+        <button
+          key={r}
+          onClick={() => onSwitch(r)}
+          className={cn(
+            "relative z-10 w-fit h-10 rounded-full sm:px-6 px-4 sm:py-2 py-1 font-medium transition-colors flex items-center gap-2",
+            region === r ? "text-white" : "text-gray-400"
+          )}
+        >
+          {region === r && (
+            <motion.span
+              layoutId="region-switch"
+              className="absolute top-0 left-0 h-10 w-full rounded-full border-4 shadow-sm shadow-blue-600 border-blue-600 bg-gradient-to-t from-blue-500 to-blue-600"
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            />
+          )}
+          <span className="relative text-lg">{data[r].flag}</span>
+          <span className="relative text-sm font-semibold">
+            {r === "india" ? "India" : "New Zealand"}
+          </span>
+        </button>
+      ))}
+    </div>
+  </div>
+);
+
+// ─── Price Card ───────────────────────────────────────────────────────────────
+
+const PriceCard = ({
+  plan,
+  currency,
+  animationNum,
+  timelineRef,
+  revealVariants,
+}: {
+  plan: PlanCard;
+  currency: string;
+  animationNum: number;
+  timelineRef: React.RefObject<HTMLDivElement | null>;
+  revealVariants: Variants;
+}) => (
+  <TimelineContent
+    as="div"
+    animationNum={animationNum}
+    timelineRef={timelineRef}
+    customVariants={revealVariants}
+    className="h-full"
+  >
+    <Card
+      className={`relative text-white border-neutral-800 h-full flex flex-col ${plan.popular
+        ? "bg-gradient-to-b from-neutral-800 via-neutral-900 to-neutral-950 shadow-[0px_-8px_160px_0px_#0900ff] z-20"
+        : "bg-gradient-to-b from-neutral-900 via-neutral-900 to-neutral-950 z-10"
+        }`}
+    >
+      <CardHeader className="text-left pb-3">
+        <div className="flex items-start justify-between mb-3">
+          <h3 className="text-xl font-semibold">{plan.name}</h3>
+          {plan.popular && (
+            <span className="text-xs bg-blue-600 text-white px-2 py-1 rounded-full font-medium flex-shrink-0 ml-2">
+              Popular
+            </span>
+          )}
+        </div>
+        <div className="space-y-0.5">
+          <p className="text-xs uppercase tracking-widest text-gray-500 font-medium">
+            Development Price
+          </p>
+          <p className="text-2xl font-bold text-white leading-tight">
+            <span className="text-gray-400 text-lg mr-0.5">{currency}</span>
+            {plan.price}
+          </p>
+          <p className="text-xs text-gray-500">One-time cost</p>
+        </div>
+      </CardHeader>
+
+      <CardContent className="pt-0 flex flex-col flex-1 justify-between space-y-3">
+        <button
+          className={`w-full py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 hover:opacity-90 ${plan.popular
+            ? "bg-gradient-to-t from-blue-500 to-blue-600 shadow-lg shadow-blue-900 border border-blue-500 text-white"
+            : "bg-gradient-to-t from-neutral-950 to-neutral-700 shadow-lg shadow-neutral-900 border border-neutral-700 text-white"
+            }`}
+        >
+          Get a Quote
+        </button>
+
+        <div className="border-t border-neutral-700 pt-3 space-y-2.5">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-400">Hosting</span>
+            <span className="text-sm font-medium text-gray-200">
+              {currency} {plan.hosting}
+              <span className="text-gray-500 text-xs"> /mo</span>
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-400">Maintenance</span>
+            <span className="text-sm font-medium text-gray-200">
+              {currency} {plan.maintenance}
+              <span className="text-gray-500 text-xs"> /mo</span>
+            </span>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  </TimelineContent>
+);
+
+// ─── Section Header ───────────────────────────────────────────────────────────
+
+const SectionHeader = ({ title }: { title: string }) => (
+  <div className="flex items-center gap-3 mb-4 px-1">
+    <h3 className="text-lg font-semibold text-white tracking-wide">{title}</h3>
+    <div className="flex-1 h-px bg-gradient-to-r from-neutral-700 to-transparent" />
+  </div>
+);
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+
 export default function PricingSection4() {
-  const [isYearly, setIsYearly] = useState(false);
+  const [region, setRegion] = useState<"india" | "nz">("india");
   const pricingRef = useRef<HTMLDivElement>(null);
+  const current = data[region];
 
   const revealVariants = {
     visible: (i: number) => ({
       y: 0,
       opacity: 1,
       filter: "blur(0px)",
-      transition: {
-        delay: i * 0.4,
-        duration: 0.5,
-      },
+      transition: { delay: i * 0.1, duration: 0.45 },
     }),
-    hidden: {
-      filter: "blur(10px)",
-      y: -20,
-      opacity: 0,
-    },
+    hidden: { filter: "blur(10px)", y: -16, opacity: 0 },
   };
 
-  const togglePricingPeriod = (value: string) =>
-    setIsYearly(Number.parseInt(value) === 1);
+  const sections = [
+    { key: "web" as const, title: "Web Development" },
+    { key: "androidIos" as const, title: "App Development — Android / iOS" },
+    { key: "hybrid" as const, title: "App Development — Hybrid" },
+    { key: "desktop" as const, title: "App Development — Desktop" },
+  ];
 
   return (
     <div
@@ -154,7 +367,7 @@ export default function PricingSection4() {
         customVariants={revealVariants}
         className="absolute top-0 h-96 w-screen overflow-hidden [mask-image:radial-gradient(50%_50%,white,transparent)]"
       >
-        <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#ffffff2c_1px,transparent_1px),linear-gradient(to_bottom,#3a3a3a01_1px,transparent_1px)] bg-[size:70px_80px]"></div>
+        <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#ffffff2c_1px,transparent_1px),linear-gradient(to_bottom,#3a3a3a01_1px,transparent_1px)] bg-[size:70px_80px]" />
         <SparklesComp
           density={1800}
           direction="bottom"
@@ -172,27 +385,22 @@ export default function PricingSection4() {
         className="absolute left-0 top-[-114px] w-full h-[113.625vh] flex flex-col items-start justify-start content-start flex-none flex-nowrap gap-2.5 overflow-hidden p-0 z-0"
       >
         <div className="relative w-full h-full">
-          <div
-            className="absolute left-[-568px] right-[-568px] top-0 h-[2053px] flex-none rounded-full"
-            style={{
-              border: "200px solid #3131f5",
-              filter: "blur(92px)",
-              WebkitFilter: "blur(92px)",
-            }}
-          ></div>
-          <div
-            className="absolute left-[-568px] right-[-568px] top-0 h-[2053px] flex-none rounded-full"
-            style={{
-              border: "200px solid #3131f5",
-              filter: "blur(92px)",
-              WebkitFilter: "blur(92px)",
-            }}
-          ></div>
+          {[0, 1].map((i) => (
+            <div
+              key={i}
+              className="absolute left-[-568px] right-[-568px] top-0 h-[2053px] flex-none rounded-full"
+              style={{
+                border: "200px solid #3131f5",
+                filter: "blur(92px)",
+                WebkitFilter: "blur(92px)",
+              }}
+            />
+          ))}
         </div>
       </TimelineContent>
 
-      {/* Header section */}
-      <article className="text-center mb-6 pt-32 max-w-3xl mx-auto space-y-4 relative z-50 px-4">
+      {/* Header */}
+      <article className="text-center mb-10 pt-32 max-w-3xl mx-auto space-y-5 relative z-50 px-4">
         <h2 className="text-4xl font-medium text-white">
           <VerticalCutReveal
             splitBy="words"
@@ -207,7 +415,7 @@ export default function PricingSection4() {
               delay: 0,
             }}
           >
-            Plans that works best for your
+            Transparent Pricing for Every Project
           </VerticalCutReveal>
         </h2>
 
@@ -218,8 +426,8 @@ export default function PricingSection4() {
           customVariants={revealVariants}
           className="text-gray-300"
         >
-          Trusted by millions, We help teams all around the world, Explore which
-          option is right for you.
+          Select your region to view local pricing — every plan includes
+          dedicated support and clear deliverables.
         </TimelineContent>
 
         <TimelineContent
@@ -228,7 +436,7 @@ export default function PricingSection4() {
           timelineRef={pricingRef}
           customVariants={revealVariants}
         >
-          <PricingSwitch onSwitch={togglePricingPeriod} />
+          <RegionSwitch region={region} onSwitch={setRegion} />
         </TimelineContent>
       </article>
 
@@ -237,85 +445,37 @@ export default function PricingSection4() {
         className="absolute top-0 left-[10%] right-[10%] w-[80%] h-full z-0"
         style={{
           backgroundImage: `radial-gradient(circle at center, #206ce8 0%, transparent 70%)`,
-          opacity: 0.6,
+          opacity: 0.4,
           mixBlendMode: "multiply",
         }}
       />
 
-      {/* Pricing Cards */}
-      <div className="grid md:grid-cols-3 max-w-5xl gap-4 py-6 mx-auto px-4 relative z-10">
-        {plans.map((plan, index) => (
-          <TimelineContent
-            key={plan.name}
-            as="div"
-            animationNum={2 + index}
-            timelineRef={pricingRef}
-            customVariants={revealVariants}
-          >
-            <Card
-              className={`relative text-white border-neutral-800 ${
-                plan.popular
-                  ? "bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 shadow-[0px_-13px_300px_0px_#0900ff] z-20"
-                  : "bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 z-10"
-              }`}
+      {/* All Pricing Sections */}
+      <div className="max-w-5xl mx-auto px-4 pb-20 space-y-14 relative z-10">
+        {sections.map((section, sIdx) => (
+          <div key={section.key}>
+            <TimelineContent
+              as="div"
+              animationNum={2 + sIdx * 4}
+              timelineRef={pricingRef}
+              customVariants={revealVariants}
             >
-              <CardHeader className="text-left">
-                <div className="flex justify-between">
-                  <h3 className="text-3xl mb-2">{plan.name}</h3>
-                  {plan.popular && (
-                    <span className="text-xs bg-blue-600 text-white px-2 py-1 rounded-full h-fit font-medium">
-                      Popular
-                    </span>
-                  )}
-                </div>
-                <div className="flex items-baseline">
-                  <span className="text-4xl font-semibold">
-                    $
-                    <NumberFlow
-                      format={{ currency: "USD" }}
-                      value={isYearly ? plan.yearlyPrice : plan.price}
-                      className="text-4xl font-semibold"
-                    />
-                  </span>
-                  <span className="text-gray-300 ml-1">
-                    /{isYearly ? "year" : "month"}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-300 mb-4">{plan.description}</p>
-              </CardHeader>
+              <SectionHeader title={section.title} />
+            </TimelineContent>
 
-              <CardContent className="pt-0">
-                <button
-                  className={`w-full mb-6 p-4 text-xl rounded-xl transition-all duration-200 hover:opacity-90 ${
-                    plan.popular
-                      ? "bg-gradient-to-t from-blue-500 to-blue-600 shadow-lg shadow-blue-800 border border-blue-500 text-white"
-                      : plan.buttonVariant === "outline"
-                        ? "bg-gradient-to-t from-neutral-950 to-neutral-600 shadow-lg shadow-neutral-900 border border-neutral-800 text-white"
-                        : ""
-                  }`}
-                >
-                  {plan.buttonText}
-                </button>
-
-                <div className="space-y-3 pt-4 border-t border-neutral-700">
-                  <h4 className="font-medium text-base mb-3">
-                    {plan.includes[0]}
-                  </h4>
-                  <ul className="space-y-2">
-                    {plan.includes.slice(1).map((feature, featureIndex) => (
-                      <li
-                        key={featureIndex}
-                        className="flex items-center gap-2"
-                      >
-                        <span className="h-2.5 w-2.5 bg-neutral-500 rounded-full grid place-content-center flex-shrink-0"></span>
-                        <span className="text-sm text-gray-300">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-          </TimelineContent>
+            <div className="grid md:grid-cols-3 gap-4">
+              {current[section.key].map((plan, pIdx) => (
+                <PriceCard
+                  key={plan.name}
+                  plan={plan}
+                  currency={current.currency}
+                  animationNum={3 + sIdx * 4 + pIdx}
+                  timelineRef={pricingRef}
+                  revealVariants={revealVariants}
+                />
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </div>
