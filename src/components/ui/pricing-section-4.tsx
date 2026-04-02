@@ -81,20 +81,20 @@ const data: Record<"india" | "nz", RegionData> = {
     androidIos: [
       {
         name: "Simple",
-        price: "3– 9 Lakhs",
+        price: "2– 7 Lakhs",
         hosting: "18,000",
         maintenance: "36,000",
       },
       {
         name: "Moderate",
-        price: "12– 30 Lakhs",
+        price: "8– 25 Lakhs",
         hosting: "24,000",
         maintenance: "48,000",
         popular: true,
       },
       {
         name: "Complex",
-        price: "36 Lakhs+",
+        price: "28 Lakhs+",
         hosting: "39k+",
         maintenance: "78k+",
       },
@@ -102,20 +102,20 @@ const data: Record<"india" | "nz", RegionData> = {
     hybrid: [
       {
         name: "Simple",
-        price: "3.6– 9.6 Lakhs",
+        price: "2.6– 7.6 Lakhs",
         hosting: "18k",
         maintenance: "36k",
       },
       {
         name: "Moderate",
-        price: "15– 30 Lakhs",
+        price: "10– 25 Lakhs",
         hosting: "24k",
         maintenance: "48k",
         popular: true,
       },
       {
         name: "Complex",
-        price: "48 Lakhs+",
+        price: "30 Lakhs+",
         hosting: "39k+",
         maintenance: "78k+",
       },
@@ -123,20 +123,20 @@ const data: Record<"india" | "nz", RegionData> = {
     desktop: [
       {
         name: "Simple",
-        price: "4.8– 10.8 Lakhs",
+        price: "3.8– 9.8 Lakhs",
         hosting: "18k",
         maintenance: "36k",
       },
       {
         name: "Moderate",
-        price: "16.8– 33 Lakhs",
+        price: "12.8– 25 Lakhs",
         hosting: "24k",
         maintenance: "48k",
         popular: true,
       },
       {
         name: "Complex",
-        price: "51 Lakhs+",
+        price: "35 Lakhs+",
         hosting: "39k+",
         maintenance: "78k+",
       },
